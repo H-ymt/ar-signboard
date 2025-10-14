@@ -1,24 +1,21 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import 'tailwindcss';
 
 @theme {
-  /* カラーパレット */
   --color-background: #ffffff;
   --color-body: #333333;
   --color-body-light: #666666;
   --color-body-lighter: #999999;
-  --color-primary: #1e90ff;
-  --color-primary-hover: #1873cc;
+  --color-primary: #2c94fc;
+  --color-primary-hover: #1e8cfa;
   --color-primary-light: #e3f2fd;
 
-  /* AR関連カラー */
   --color-ar-primary: #00d9ff;
   --color-ar-secondary: #7c4dff;
   --color-ar-success: #00e676;
   --color-ar-warning: #ffd600;
   --color-ar-error: #ff5252;
 
-  /* グレースケール */
   --color-gray-50: #fafafa;
   --color-gray-100: #f5f5f5;
   --color-gray-200: #eeeeee;
@@ -30,40 +27,33 @@
   --color-gray-800: #424242;
   --color-gray-900: #212121;
 
-  /* オーバーレイ */
   --color-overlay-light: rgba(0, 0, 0, 0.5);
   --color-overlay-dark: rgba(0, 0, 0, 0.75);
 
-  /* フォント */
   --font-base:
     Inter, Arial, Hiragino Kaku Gothic ProN, Hiragino Sans, Noto Sans JP, sans-serif,
     Segoe UI Emoji, Segoe UI Symbol;
 
-  /* スペーシング */
   --spacing-safe-top: env(safe-area-inset-top);
   --spacing-safe-bottom: env(safe-area-inset-bottom);
   --spacing-safe-left: env(safe-area-inset-left);
   --spacing-safe-right: env(safe-area-inset-right);
 
-  /* AR UI サイズ */
   --size-control-button: 3.5rem;
   --size-design-thumbnail: 5rem;
   --size-overlay-icon: 2rem;
 
-  /* 角丸 */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-full: 9999px;
 
-  /* シャドウ */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
-  /* トランジション */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -79,4 +69,8 @@
 
 body {
   @apply font-base;
+}
+
+button {
+  @apply cursor-pointer;
 }
