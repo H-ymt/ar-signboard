@@ -14,17 +14,21 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
+    "@vercel/speed-insights": "^1.2.0",
     "aframe": "^1.7.1",
     "mind-ar": "^1.2.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "tailwindcss": "^4.1.14"
+    "tailwindcss": "^4.1.14",
+    "three": "0.150.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@types/aframe": "^1.2.8",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
+    "@types/three": "0.150.0",
     "@vitejs/plugin-react": "^5.0.4",
     "eslint": "^9.36.0",
     "eslint-plugin-import": "^2.32.0",

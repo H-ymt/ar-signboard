@@ -27,6 +27,7 @@
 
 - [src/](src/) 配下にコンポーネント、フック、型定義、ユーティリティを配置する
 - 再利用可能な UI コンポーネントは [src/components/](src/components/) に配置する
+- Tailwind CSSv4 の機能でグローバルに定義されたカスタムテーマを利用してスタイリングを行う
 - カスタムフックは [src/hooks/](src/hooks/) に配置する
 - 型定義は [src/types/](src/types/) に配置する
 - ユーティリティ関数は [src/utils/](src/utils/) に配置する
