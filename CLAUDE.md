@@ -99,7 +99,6 @@ ar-signboard-app/
 - カスタム CSS は `@theme` ディレクティブを使って `index.css` で定義する
 - `@apply` ディレクティブの使用は避け、コンポーネント化で対応する
 - レスポンシブデザインは Tailwind のブレークポイント（`sm:`, `md:`, `lg:`, `xl:`）を活用
-- ダークモード対応が必要な場合は `dark:` プレフィックスを使用
 - アニメーションやトランジションは Tailwind の組み込みユーティリティを優先
 
 ### クラス命名規則
@@ -108,19 +107,14 @@ ar-signboard-app/
 - 可読性のため、適宜改行やグループ化を行う
 - 条件付きクラスは `clsx` や `classnames` ライブラリを使用して管理
 
-### カスタマイズ（v4 の変更点）
+### カスタマイズ
 
-- **Tailwind CSS v4 では `tailwind.config.js` は不要**
+- \*\*Tailwind CSS v4
 - プロジェクト固有の色やスペーシングは `src/index.css` の `@theme` ディレクティブで定義
 - カスタムカラー例: `--color-ar-primary: #00d9ff;` → `bg-ar-primary` で使用可能
 - カスタムスペーシング例: `--spacing-safe-top: env(safe-area-inset-top);` → `pt-safe-top` で使用可能
 - カスタムアニメーション例: `--animate-fade-in: fade-in 0.3s ease-out;` → `animate-fade-in` で使用可能
 - AR 関連の特殊なスタイル（全画面表示、カメラビューなど）も `@theme` で定義
-
-### パフォーマンス
-
-- 本番ビルド時に未使用クラスが自動削除される（v4 では設定不要）
-- Vite が自動的に最適化を行うため、追加の設定は不要
 
 ## コード品質チェック
 
@@ -189,13 +183,6 @@ ar-signboard-app/
 
 - 日本語で記述
 - Conventional Commit 形式を基本とする
-
-例:
-
-- `feat: AR看板の配置機能を追加`
-- `fix: iOS Safari でのカメラ認識エラーを修正`
-- `perf: 3D モデルの読み込みを最適化`
-- `docs: AR 機能の実装ガイドを追加`
 
 ## その他の注意事項
 

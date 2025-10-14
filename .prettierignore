@@ -1,0 +1,19 @@
+# 依存関係
+node_modules
+pnpm-lock.yaml
+
+# ビルド出力
+dist
+build
+.vite
+
+# ログ
+*.log
+
+# 環境変数
+.env
+.env.*
+
+# その他
+coverage
+.DS_Store
