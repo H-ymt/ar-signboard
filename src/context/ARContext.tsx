@@ -2,7 +2,7 @@
  * ARコンテキスト - AR状態の管理
  */
 
-import { createContext, type ReactNode,useCallback, useContext, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useState } from 'react';
 
 import type { ARInitStatus, ARSceneState, ARTrackingStatus } from '../types';
 

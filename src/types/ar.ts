@@ -2,76 +2,57 @@
  * AR関連の型定義
  */
 
-/**
- * AR初期化状態
- */
-export type ARInitStatus = 'idle' | 'initializing' | 'ready' | 'error';
-
-/**
- * AR認識状態
- */
-export type ARTrackingStatus = 'not-started' | 'tracking' | 'lost';
-
-/**
- * AR設定オプション
- */
-export interface ARConfig {
-  /** ターゲット画像ファイルパス (.mind形式) */
-  targetImagePath: string;
-  /** 最大トラック数 */
-  maxTrack?: number;
-  /** ウォームアップ時間（トラック数 * 15 * 1000）*/
-  warmupTolerance?: number;
-  /** フィルタリング最小信頼度 */
-  filterMinCF?: number;
-  /** フィルタリングベータ値（0-1: 大きいほど滑らか） */
-  filterBeta?: number;
-  /** 誤検出しきい値 */
-  missTolerance?: number;
+// MindAR 設定
+export interface MindARConfig {
+  targetUrl: string;
+  maxTrack: number;
+  filterMinCF: number;
+  filterBeta: number;
 }
 
-/**
- * ARシーンの状態
- */
-export interface ARSceneState {
-  /** 初期化状態 */
-  initStatus: ARInitStatus;
-  /** トラッキング状態 */
-  trackingStatus: ARTrackingStatus;
-  /** エラーメッセージ */
-  error: string | null;
-  /** カメラが利用可能かどうか */
-  isCameraAvailable: boolean;
-}
-
-/**
- * AR看板エンティティ
- */
-export interface AREntity {
-  /** エンティティID */
-  id: string;
-  /** エンティティタイプ */
-  type: 'image' | 'model';
-  /** リソースパス */
-  src: string;
-  /** 位置 (x, y, z) */
+// Transform（位置・回転・拡大縮小）
+export interface Transform {
   position: [number, number, number];
-  /** 回転 (x, y, z) 度数法 */
   rotation: [number, number, number];
-  /** スケール */
   scale: [number, number, number];
-  /** 可視性 */
-  visible: boolean;
 }
 
-/**
- * MindARシステムのイベント型
- */
-export interface MindAREvents {
-  arReady: () => void;
-  arError: (error: Error) => void;
-  targetFound: (event: { target: number }) => void;
-  targetLost: (event: { target: number }) => void;
+// トラッキング状態
+export interface TrackingState {
+  targetFound: boolean;
+  isTracking: boolean;
+  confidence: number;
+}
+
+// エラー型
+export const ARErrorType = {
+  BROWSER_NOT_SUPPORTED: 'BROWSER_NOT_SUPPORTED',
+  CAMERA_PERMISSION_DENIED: 'CAMERA_PERMISSION_DENIED',
+  CAMERA_ACCESS_FAILED: 'CAMERA_ACCESS_FAILED',
+  MINDAR_INIT_FAILED: 'MINDAR_INIT_FAILED',
+  AFRAME_INIT_FAILED: 'AFRAME_INIT_FAILED',
+  TARGET_LOAD_FAILED: 'TARGET_LOAD_FAILED',
+  MODEL_LOAD_FAILED: 'MODEL_LOAD_FAILED',
+  TRACKING_FAILED: 'TRACKING_FAILED',
+  CAPTURE_FAILED: 'CAPTURE_FAILED',
+  SAVE_FAILED: 'SAVE_FAILED',
+  UNKNOWN_ERROR: 'UNKNOWN_ERROR',
+} as const;
+
+export type ARErrorType = (typeof ARErrorType)[keyof typeof ARErrorType];
+
+export interface ARError {
+  type: ARErrorType;
+  message: string;
+  recoverable: boolean;
+  action?: string;
+}
+
+// 初期化状態
+export interface InitializeState {
+  isInitialized: boolean;
+  isInitializing: boolean;
+  error: ARError | null;
 }
 
 /**

@@ -2,45 +2,20 @@
  * カメラ関連の型定義
  */
 
-/**
- * カメラの状態
- */
-export type CameraStatus = 'idle' | 'requesting' | 'granted' | 'denied' | 'error';
+import type { ARError } from './ar';
 
-/**
- * カメラ設定オプション
- */
-export interface CameraConfig {
-  /** カメラの向き (user: フロント, environment: リア) */
-  facingMode?: 'user' | 'environment';
-  /** 希望する解像度幅 */
-  width?: number;
-  /** 希望する解像度高さ */
-  height?: number;
-  /** フレームレート */
-  frameRate?: number;
+export type CameraPermission = 'pending' | 'granted' | 'denied';
+
+export interface CameraConstraints {
+  video: {
+    facingMode: 'environment';
+    width: { ideal: number };
+    height: { ideal: number };
+  };
 }
 
-/**
- * カメラの状態情報
- */
 export interface CameraState {
-  /** カメラの状態 */
-  status: CameraStatus;
-  /** MediaStreamオブジェクト */
+  permission: CameraPermission;
   stream: MediaStream | null;
-  /** エラーメッセージ */
-  error: string | null;
+  error: ARError | null;
 }
-
-/**
- * カメラ権限エラーの種類
- */
-export type CameraPermissionError =
-  | 'NotAllowedError'
-  | 'NotFoundError'
-  | 'NotReadableError'
-  | 'OverconstrainedError'
-  | 'SecurityError'
-  | 'TypeError'
-  | 'Unknown';
