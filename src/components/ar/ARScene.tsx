@@ -74,14 +74,11 @@ export const ARScene = ({
         {/* @ts-expect-error A-Frame custom elements */}
         <a-entity mindar-image-target="targetIndex: 0">
           {/* @ts-expect-error A-Frame custom elements */}
-          <a-plane
-            src={signboard.src}
+          <a-entity
+            gltf-model="/models/guide-sign.gltf"
             position={`${transform.position[0]} ${transform.position[1]} ${transform.position[2]}`}
             rotation={`${transform.rotation[0]} ${transform.rotation[1]} ${transform.rotation[2]}`}
             scale={`${transform.scale[0]} ${transform.scale[1]} ${transform.scale[2]}`}
-            width={1}
-            height={1}
-            material="transparent: true; alphaTest: 0.5"
           />
           {/* @ts-expect-error A-Frame custom elements */}
         </a-entity>
