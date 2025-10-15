@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { MindARController } from '../ar/MindARController';
-import { MINDAR_CONFIG } from '../constants/ar';
 import type { InitializeState } from '../types/ar';
 import { ARErrorType } from '../types/ar';
 import { isBrowserSupported } from '../utils/browser';
@@ -29,9 +28,11 @@ export const useARInitialize = () => {
         };
       }
 
-      // 2. MindAR初期化
-      await controller.initialize(MINDAR_CONFIG);
+      // 2. A-Frameを使用する場合は、MindARControllerの初期化をスキップ
+      // A-Frameのシーンが読み込まれた時点で初期化完了とみなす
+      // await controller.initialize(MINDAR_CONFIG);
 
+      // すぐに初期化完了とする（A-Frameが自動的に初期化を行うため）
       setState({ isInitialized: true, isInitializing: false, error: null });
     } catch (error) {
       logger.error('AR initialization failed', error);
