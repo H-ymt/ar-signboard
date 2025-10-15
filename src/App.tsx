@@ -5,6 +5,9 @@
 import { useState } from 'react';
 
 import { ARScene } from './components/ar/ARScene';
+import { CaptureButton } from './components/ui/CaptureButton';
+import { CaptureError } from './components/ui/CaptureError';
+import { CapturePreview } from './components/ui/CapturePreview';
 import { ControlsOverlay } from './components/ui/ControlsOverlay';
 import { ErrorDialog } from './components/ui/ErrorDialog';
 import { LoadingScreen } from './components/ui/LoadingScreen';
@@ -13,15 +16,29 @@ import { DEFAULT_TRANSFORM, MINDAR_CONFIG } from './constants/ar';
 import { SIGNBOARD_DESIGNS } from './data/signboards';
 import { useARInitialize } from './hooks/useARInitialize';
 import { useCamera } from './hooks/useCamera';
+import { useCapture } from './hooks/useCapture';
 import { useGesture } from './hooks/useGesture';
 
 function App() {
   const { isInitializing, isInitialized, error: arError, initialize } = useARInitialize();
   const { permission, error: cameraError, requestCameraPermission } = useCamera();
+  const {
+    isCapturing,
+    isSaving,
+    isSharing,
+    captureResult,
+    error: captureError,
+    capture,
+    save,
+    share,
+    reset,
+    clearError,
+  } = useCapture();
 
   const [isTracking, setIsTracking] = useState(false);
   const [showHelp, setShowHelp] = useState(true);
   const [showDesignSwitcher, setShowDesignSwitcher] = useState(false);
+  const [showCapturePreview, setShowCapturePreview] = useState(false);
   const [currentDesignId, setCurrentDesignId] = useState(SIGNBOARD_DESIGNS[0].id);
 
   const currentDesign =
@@ -35,6 +52,41 @@ function App() {
     await requestCameraPermission();
     if (permission === 'granted') {
       await initialize();
+    }
+  };
+
+  const handleCapture = async () => {
+    const sceneElement = document.querySelector('.ar-scene-container');
+    if (sceneElement) {
+      try {
+        await capture(sceneElement as HTMLElement);
+        setShowCapturePreview(true);
+      } catch (err) {
+        console.error('Capture failed:', err);
+      }
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await save();
+      setShowCapturePreview(false);
+      reset();
+    } catch (err) {
+      console.error('Save failed:', err);
+    }
+  };
+
+  const handleRetake = () => {
+    setShowCapturePreview(false);
+    reset();
+  };
+
+  const handleShare = async () => {
+    try {
+      await share();
+    } catch (err) {
+      console.error('Share failed:', err);
     }
   };
 
@@ -59,19 +111,44 @@ function App() {
 
       {isInitialized && (
         <>
-          <ARScene
-            targetUrl={MINDAR_CONFIG.targetUrl}
-            signboard={currentDesign}
-            transform={transform}
-            onTargetFound={() => setIsTracking(true)}
-            onTargetLost={() => setIsTracking(false)}
-          />
+          <div className="ar-scene-container">
+            <ARScene
+              targetUrl={MINDAR_CONFIG.targetUrl}
+              signboard={currentDesign}
+              transform={transform}
+              onTargetFound={() => setIsTracking(true)}
+              onTargetLost={() => setIsTracking(false)}
+            />
+          </div>
 
           <ControlsOverlay
             isTracking={isTracking}
             showHelp={showHelp}
             onToggleDesignSwitcher={() => setShowDesignSwitcher(!showDesignSwitcher)}
             onDismissHelp={() => setShowHelp(false)}
+          />
+
+          {/* キャプチャボタン */}
+          {isTracking && <CaptureButton onCapture={handleCapture} isCapturing={isCapturing} />}
+
+          {/* キャプチャプレビュー */}
+          {showCapturePreview && (
+            <CapturePreview
+              imageUrl={captureResult?.dataUrl || null}
+              onSave={handleSave}
+              onRetake={handleRetake}
+              onShare={'share' in navigator ? handleShare : undefined}
+              onClose={handleRetake}
+              isSaving={isSaving}
+              isSharing={isSharing}
+            />
+          )}
+
+          {/* キャプチャエラー */}
+          <CaptureError
+            error={captureError}
+            onRetry={handleCapture}
+            onDismiss={clearError}
           />
 
           <SignboardSwitcher
