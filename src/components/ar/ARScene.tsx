@@ -33,6 +33,10 @@ export const ARScene = ({
     const sceneEl = sceneRef.current.querySelector('a-scene');
     if (!sceneEl) return;
 
+    // mindar-image-target エンティティを取得
+    const targetEl = sceneEl.querySelector('[mindar-image-target]');
+    if (!targetEl) return;
+
     // ターゲット検出イベントのハンドラ
     const handleTargetFound = () => {
       console.log('[ARScene] Target found');
@@ -44,14 +48,14 @@ export const ARScene = ({
       onTargetLost();
     };
 
-    // イベントリスナーの登録
-    sceneEl.addEventListener('targetFound', handleTargetFound);
-    sceneEl.addEventListener('targetLost', handleTargetLost);
+    // イベントリスナーの登録（targetEl に登録）
+    targetEl.addEventListener('targetFound', handleTargetFound);
+    targetEl.addEventListener('targetLost', handleTargetLost);
 
     return () => {
       // クリーンアップ
-      sceneEl.removeEventListener('targetFound', handleTargetFound);
-      sceneEl.removeEventListener('targetLost', handleTargetLost);
+      targetEl.removeEventListener('targetFound', handleTargetFound);
+      targetEl.removeEventListener('targetLost', handleTargetLost);
     };
   }, [onTargetFound, onTargetLost]);
 

@@ -38,7 +38,6 @@ export const ControlsOverlay = ({
       {/* トラッキング状態表示 */}
       {!isTracking && (
         <div className="bg-opacity-75 fixed top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-black px-6 py-4 text-center text-white">
-          <p className="text-sm font-medium">📷 ターゲット画像を探しています...</p>
           <p className="mt-2 text-sm opacity-75">カメラをターゲット画像に向けてください</p>
         </div>
       )}
