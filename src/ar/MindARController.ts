@@ -22,7 +22,18 @@ export class MindARController {
         filterBeta: config.filterBeta,
       });
 
-      await this.mindarThree.start();
+      // タイムアウト付きで初期化を実行（30秒）
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('MindAR initialization timeout (30s). ターゲットファイルが存在しないか、読み込みに失敗しました。'));
+        }, 30000);
+      });
+
+      await Promise.race([
+        this.mindarThree.start(),
+        timeoutPromise,
+      ]);
+
       this.isInitialized = true;
 
       logger.info('MindAR initialized successfully');
