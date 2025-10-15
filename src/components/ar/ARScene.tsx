@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { Transform } from '../../types/ar';
 
@@ -10,6 +10,8 @@ interface ARSceneProps {
   transform: Transform;
   onTargetFound: () => void;
   onTargetLost: () => void;
+  shouldResetModel: boolean;
+  onModelReset: () => void;
 }
 
 /**
@@ -21,8 +23,11 @@ export const ARScene = ({
   transform,
   onTargetFound,
   onTargetLost,
+  shouldResetModel,
+  onModelReset,
 }: ARSceneProps) => {
   const sceneRef = useRef<HTMLDivElement>(null);
+  const [isModelVisible, setIsModelVisible] = useState(false);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -34,14 +39,20 @@ export const ARScene = ({
     const targetEl = sceneEl.querySelector('[mindar-image-target]');
     if (!targetEl) return;
 
+    // 3Dモデルのエンティティを取得
+    const modelEl = targetEl.querySelector('[gltf-model]');
+    if (!modelEl) return;
+
     // ターゲット検出イベントのハンドラ
     const handleTargetFound = () => {
       console.log('[ARScene] Target found');
+      setIsModelVisible(true);
       onTargetFound();
     };
 
     const handleTargetLost = () => {
-      console.log('[ARScene] Target lost');
+      console.log('[ARScene] Target lost - model will persist');
+      // モデルを表示し続ける（非表示にしない）
       onTargetLost();
     };
 
@@ -55,6 +66,47 @@ export const ARScene = ({
       targetEl.removeEventListener('targetLost', handleTargetLost);
     };
   }, [onTargetFound, onTargetLost]);
+
+  // モデルの表示/非表示を制御
+  useEffect(() => {
+    if (!sceneRef.current) return;
+
+    const sceneEl = sceneRef.current.querySelector('a-scene');
+    if (!sceneEl) return;
+
+    const targetEl = sceneEl.querySelector('[mindar-image-target]');
+    if (!targetEl) return;
+
+    const modelEl = targetEl.querySelector('[gltf-model]');
+    if (!modelEl) return;
+
+    // モデルの表示を維持
+    if (isModelVisible) {
+      modelEl.setAttribute('visible', 'true');
+    }
+  }, [isModelVisible, transform]);
+
+  // リセット処理
+  useEffect(() => {
+    if (shouldResetModel) {
+      console.log('[ARScene] Resetting model visibility');
+      setIsModelVisible(false);
+
+      if (!sceneRef.current) return;
+
+      const sceneEl = sceneRef.current.querySelector('a-scene');
+      if (!sceneEl) return;
+
+      const targetEl = sceneEl.querySelector('[mindar-image-target]');
+      if (!targetEl) return;
+
+      const modelEl = targetEl.querySelector('[gltf-model]');
+      if (!modelEl) return;
+
+      modelEl.setAttribute('visible', 'false');
+      onModelReset();
+    }
+  }, [shouldResetModel, onModelReset]);
 
   return (
     <div ref={sceneRef} className="fixed inset-0">
