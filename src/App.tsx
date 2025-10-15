@@ -42,6 +42,7 @@ function App() {
   const [showCapturePreview, setShowCapturePreview] = useState(false);
   const [showTargetImage, setShowTargetImage] = useState(false);
   const [currentDesignId, setCurrentDesignId] = useState(SIGNBOARD_DESIGNS[0].id);
+  const [shouldResetModel, setShouldResetModel] = useState(false);
 
   const { transform } = useGesture(DEFAULT_TRANSFORM, (newTransform) => {
     console.log('Transform updated:', newTransform);
@@ -93,6 +94,15 @@ function App() {
     }
   };
 
+  const handleResetModel = () => {
+    console.log('[App] Reset model visibility');
+    setShouldResetModel(true);
+  };
+
+  const handleModelReset = () => {
+    setShouldResetModel(false);
+  };
+
   const currentError = arError || cameraError;
 
   return (
@@ -135,6 +145,8 @@ function App() {
               transform={transform}
               onTargetFound={() => setIsTracking(true)}
               onTargetLost={() => setIsTracking(false)}
+              shouldResetModel={shouldResetModel}
+              onModelReset={handleModelReset}
             />
           </div>
 
@@ -145,13 +157,24 @@ function App() {
             onDismissHelp={() => setShowHelp(false)}
           />
 
-          {/* ターゲット画像表示ボタン */}
-          <button
-            onClick={() => setShowTargetImage(true)}
-            className="bg-primary hover:bg-primary-hover fixed top-4 right-4 z-40 rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all"
-          >
-            ターゲット画像を表示
-          </button>
+          {/* 右上のボタングループ */}
+          <div className="fixed top-4 right-4 z-40 flex flex-col gap-2">
+            {/* ターゲット画像表示ボタン */}
+            <button
+              onClick={() => setShowTargetImage(true)}
+              className="bg-primary hover:bg-primary-hover rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all"
+            >
+              ターゲット画像を表示
+            </button>
+
+            {/* モデルリセットボタン */}
+            <button
+              onClick={handleResetModel}
+              className="bg-red-600 hover:bg-red-700 rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all"
+            >
+              表示をリセット
+            </button>
+          </div>
 
           {/* キャプチャボタン */}
           {isTracking && <CaptureButton onCapture={handleCapture} isCapturing={isCapturing} />}
