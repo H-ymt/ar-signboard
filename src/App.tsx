@@ -43,9 +43,6 @@ function App() {
   const [showTargetImage, setShowTargetImage] = useState(false);
   const [currentDesignId, setCurrentDesignId] = useState(SIGNBOARD_DESIGNS[0].id);
 
-  const currentDesign =
-    SIGNBOARD_DESIGNS.find((d) => d.id === currentDesignId) || SIGNBOARD_DESIGNS[0];
-
   const { transform } = useGesture(DEFAULT_TRANSFORM, (newTransform) => {
     console.log('Transform updated:', newTransform);
   });
@@ -135,7 +132,6 @@ function App() {
           <div className="ar-scene-container">
             <ARScene
               targetUrl={MINDAR_CONFIG.targetUrl}
-              signboard={currentDesign}
               transform={transform}
               onTargetFound={() => setIsTracking(true)}
               onTargetLost={() => setIsTracking(false)}

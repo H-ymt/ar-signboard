@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react';
 
 import type { Transform } from '../../types/ar';
-import type { SignboardDesign } from '../../types/signboard';
 
 import 'aframe';
 import 'mind-ar/dist/mindar-image-aframe.prod.js';
 
 interface ARSceneProps {
   targetUrl: string;
-  signboard: SignboardDesign;
   transform: Transform;
   onTargetFound: () => void;
   onTargetLost: () => void;
@@ -20,7 +18,6 @@ interface ARSceneProps {
  */
 export const ARScene = ({
   targetUrl,
-  signboard,
   transform,
   onTargetFound,
   onTargetLost,
