@@ -19,10 +19,10 @@ export const ControlsOverlay = ({
     <>
       {/* 操作説明 */}
       {showHelp && (
-        <div className="fixed left-1/2 top-4 z-30 -translate-x-1/2 transform rounded-lg bg-black bg-opacity-75 px-4 py-3 text-white shadow-lg">
+        <div className="bg-opacity-75 fixed top-4 left-1/2 z-30 -translate-x-1/2 transform rounded-lg bg-black px-4 py-3 text-white shadow-lg">
           <button
             onClick={onDismissHelp}
-            className="absolute right-2 top-2 text-white opacity-75 hover:opacity-100"
+            className="absolute top-2 right-2 text-white opacity-75 hover:opacity-100"
             aria-label="ヘルプを閉じる"
           >
             ✕
@@ -37,8 +37,8 @@ export const ControlsOverlay = ({
 
       {/* トラッキング状態表示 */}
       {!isTracking && (
-        <div className="fixed left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-black bg-opacity-75 px-6 py-4 text-center text-white">
-          <p className="text-lg font-medium">📷 ターゲット画像を探しています...</p>
+        <div className="bg-opacity-75 fixed top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-black px-6 py-4 text-center text-white">
+          <p className="text-sm font-medium">📷 ターゲット画像を探しています...</p>
           <p className="mt-2 text-sm opacity-75">カメラをターゲット画像に向けてください</p>
         </div>
       )}
@@ -47,7 +47,7 @@ export const ControlsOverlay = ({
       {isTracking && (
         <button
           onClick={onToggleDesignSwitcher}
-          className="fixed bottom-6 right-6 z-30 rounded-full bg-blue-500 p-4 text-white shadow-lg transition-colors hover:bg-blue-600 active:bg-blue-700"
+          className="fixed right-6 bottom-6 z-30 rounded-full bg-blue-500 p-4 text-white shadow-lg transition-colors hover:bg-blue-600 active:bg-blue-700"
           aria-label="デザインを変更"
         >
           🎨
