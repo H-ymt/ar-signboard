@@ -112,17 +112,20 @@ function App() {
           >
             AR体験を開始
           </button>
+          <p className="text-body-light mt-4 text-sm">
+            ※現在、Safari（iOS）またはChrome（Android）のみサポートしています。
+          </p>
 
           <div className="text-center">
-            <p className="mb-4 text-gray-600">
-              または、ターゲット画像を表示してスマホでスキャン
-            </p>
             <button
               onClick={() => setShowTargetImage(true)}
               className="bg-primary hover:bg-primary-hover rounded-lg px-6 py-3 text-base font-semibold text-white shadow-lg transition-all"
             >
               ターゲット画像を表示
             </button>
+            <p className="text-body-light mt-4 text-sm">
+              または、ターゲット画像を表示してスマホでスキャン
+            </p>
           </div>
         </div>
       )}
